@@ -11,6 +11,9 @@ import { SCREEN_OVER, SCREEN_PLAY, SCREEN_TITLE } from './screens.js';
 const W = FIELD.width;
 const H = FIELD.height;
 
+/** The idle ctrl staged steps breathe with: the world reads its aim, so it is never null. */
+const STAGE_CTRL = { moveX: 0, moveY: 0, aimX: W / 2, aimY: H / 2, firing: false, dash: false };
+
 /** The one seed every staged scene is built from. */
 export const SHOT_SEED = 20261107;
 
@@ -126,7 +129,7 @@ function stageUpgrade(world) {
   dropPearlAt(s, 420, 520, false);
   dropPearlAt(s, 860, 480, false);
   // A breath of drift so the tentacles hang easy behind the bell.
-  for (let i = 0; i < 10; i += 1) world.step(STEP, null, true);
+  for (let i = 0; i < 10; i += 1) world.step(STEP, STAGE_CTRL, true);
   return { screen: SCREEN_PLAY, best: SHOT_BEST };
 }
 
@@ -180,7 +183,7 @@ function stageEnd(world) {
     ring.color = '#6ff2ff';
     ring.width = 4;
   }
-  for (let i = 0; i < 3; i += 1) world.step(STEP, null, true);
+  for (let i = 0; i < 3; i += 1) world.step(STEP, STAGE_CTRL, true);
   return { screen: SCREEN_OVER, best: SHOT_BEST };
 }
 
